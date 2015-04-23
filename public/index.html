@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="eng" ng-app="analoc">
 <head>
-	<!-- Bootstrap, datepicker and xcharts stylesheet.-->
+	<!-- Bootstrap, datepicker and angular-chars stylesheet.-->
 	<link rel="stylesheet" type="text/css" href="./stylesheets/bootstrap.css" />
 	<link rel="stylesheet" type="text/css" href="./stylesheets/daterangepicker.css" />
-	<link rel="stylesheet" type="text/css" href="./stylesheets/xcharts.min.css" />
+	<link rel="stylesheet" type="text/css" href="./stylesheets/angular-chart.css" />
 	<title>Analoc Test</title>
 </head>
 
@@ -16,7 +16,8 @@
 		<a href="#" ng-click="sendRequest()">Click Me!</a>
 
 		<div id="content">	
-		
+			
+			<!-- Date picker range -->
 			<form class="form-horizontal">
 	              <fieldset>
 	                <div class="input-prepend">
@@ -24,22 +25,29 @@
 	                  <input type="text" name="range" id="range" />
 	                </div>
 	              </fieldset>
-	           </form>
+	        </form>
+
+	        <!-- Angular Chart -->
+	        <canvas id="line" class="chart chart-line" data="data" labels="labels" legend="true" series="series" click="onClick">
+			</canvas> 
+
+			<p ng-model="message"></p>
 
           </div>
     </div>
 
-	<!-- jQuery, Angular includes -->
-	<script type="text/javascript" src="./javascripts/angular.min.js"></script>
-	<script type="text/javascript" src="./javascripts/myapp.js"></script>
+	<!-- jQuery, Angular includes -->	
 	<script type="text/javascript" src="./javascripts/jquery.js"></script>
 
-	<!-- xcharts includes -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.js"></script>
-	<script type="text/javascript" src="./javascripts/xcharts.min.js"></script>
+	<script type="text/javascript" src="./javascripts/angular.min.js"></script>
+	<script type="text/javascript" src="./javascripts/controller.js"></script>
+
+
+	<!-- angular-charts includes -->
+	<script type="text/javascript" src="./javascripts/Chart.js"></script>
+	<script type="text/javascript" src="./javascripts/angular-chart.js"></script>
 
 	<!-- The daterange picker bootstrap plugin -->
-
 	<script type="text/javascript" src="./javascripts/sugar.min.js"></script>
 	<script type="text/javascript" src="./javascripts/daterangepicker.js"></script>
 

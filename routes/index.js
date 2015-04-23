@@ -13,43 +13,40 @@ app.get('/', function(req, res, next) {
   	res.render('index', { title: 'Express' });
 });
 
-/* GET json */
-app.get('/getAnaloc', function(req, res) {
+/* slice json data to relavent dates  */
+app.post('/getAnaloc', function(req, res) {
 
 	// Get the dates from the angular script
-	var startDate = req.param('startDate');
-	var endDate = req.param('endDate');
-
-	console.log("START DATE: ", startDate);
-	console.log("END DATE: ", endDate);
+	var startDate = req.param('startDate'),
+		endDate = req.param('endDate');
 
 	fs.readFile('./sample_data.json', function(error, data){
   		var jsonObj = JSON.parse(data);
-  		jsonObj = inDates(jsonObj, startDate, endDate);
-
-  		// cache.save('data', jsonObj, function(err, savedDate){
-  		// 	console.log("data is stord in cache.");
-  		// });
-
-	res.send(jsonObj);
+  		
+  		var manipulatedData = manipulate(jsonObj);
+  		var requestedData = {}
+  		// slicing the jsonArray to relevant dates.
+  		for (var date in manipulatedData) {
+  			if (date >= startDate && date <= endDate) {
+  				requestedData[date] = manipulatedData[date];
+  			}
+  		}
+		res.send(requestedData);
 	});
 	
 });
 
-function inDates(jsonObj, startDate, endDate) {
-	// Setting up a new array to store the sata only in between the desiered dates.
-	jsonInDates = []
-
-	// Because the format of the date of each element is: YYYY-MM-DD..
-	// (i.e. '2015-02-14') we could jest compate between the strings.
-	for (var i = 0; i < jsonObj.length; i++) {
-		if ((jsonObj[i].date >= startDate) && (jsonObj[i].date <= endDate)) {
-			jsonInDates.push(jsonObj[i]);
-			// console.log(jsonObj[i]);
+// manipulate data for: {date: [object, objects]}
+function manipulate(jsonArray) {
+	var result = {};
+	for (var index in jsonArray) {
+		var element = jsonArray[index];
+		if (!result[element["date"]]) {
+			result[element["date"]] = [];
 		}
-	};
-
-	return jsonInDates;
-};
+		result[element["date"]].push(element);
+	}
+	return result;
+}
 
 module.exports = app;

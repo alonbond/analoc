@@ -7,35 +7,24 @@
 	<link rel="stylesheet" type="text/css" href="./stylesheets/xcharts.min.css" />
 	<title>Analoc Test</title>
 </head>
-<body>
+<body ng-contoller="mainCtrl">
 	<div class="container">
 		<h1>{{ "Analoc" + " Test" }}</h1>
-		<p>{{ 4 + 6 }}</p>
 
 		<div id="content">
 
 	        <form class="form-horizontal">
 
-	          <fieldset>
-
-	            <div class="input-prepend">
-	              <span class="add-on"><i class="icon-calendar"></i></span>
-	              <input type="text" name="range" id="range" />
-	            </div>
-	          </fieldset>
+	              <input ng-model="range" type="text" name="range" id="range" />
 
 	        </form>
-
-	        <div id="placeholder">
-	            <figure id="chart"></figure>
-	        </div>
 
 	    </div>
     </div>
 
 	<!-- jQuery, Angular includes -->
 	<script type="text/javascript" src="./javascripts/angular.min.js"></script>
-	<script type="text/javascript" src="./javascripts/myapp.js"></script>
+	<script type="text/javascript" src="./javascripts/controller.js"></script>
 	<script type="text/javascript" src="./javascripts/jquery.js"></script>
 
 	<!-- xcharts includes -->
