@@ -2,19 +2,18 @@ var app = angular.module('analoc', ['chart.js']);
 
 app.controller('mainCtrl', function($scope, $http){
 
-	$scope.sendRequest = function(){
+	$scope.sendRequest = function(startDate, endDate){
 
-		var range = $('#range').val(); 
+		// var range = $('#range').val(); 
 
-		var startDate = formatDate(range.slice(0,10)),
-			endDate = formatDate(range.slice(13, range.length));
+		// var startDate = formatDate(range.slice(0,10)),
+		// 	endDate = formatDate(range.slice(13, range.length));
+		console.log(startDate, endDate);
 
 		$http.post('/getAnaloc', {'startDate':startDate, 'endDate': endDate}).
 			success(function(data, status, headers, config) {
 			// this callback will be called asynchronously
 			// when the response is available
-			console.log(data);
-			console.log(typeof data);
 				if (JSON.stringify(data) !== '{}') {
 
 					// labelsArray ($scope.labels) is the 'x' grpah representing
@@ -39,7 +38,7 @@ app.controller('mainCtrl', function($scope, $http){
 					// filling up shoppersArray.
 					// -----------------------------------------
 					for (var i=0; i<shoppersArray.length; i++){
-						shoppersArray[i] = new Array(labelsArray.length / 2);
+						shoppersArray[i] = new Array(labelsArray.length);
 					}
 
 					// filling up shoppersArray.
@@ -75,20 +74,16 @@ app.controller('mainCtrl', function($scope, $http){
 							labelsArray[i] = labelsArray[i].toString() + ':00';
 						}
 					}
-
-					console.log(labelsArray);
-					console.log(shoppersArray);
-
-
+					
 					// Setting the data for the graph.
 					// -----------------------------------------
 					$scope.data = shoppersArray;
 	  				$scope.labels = labelsArray;
 	  				$scope.series = ['Walk-Bys', 'Visits'];
 					
-					$scope.onClick = function (points, evt) {
-						console.log(points, evt);
-					};
+					// $scope.onClick = function (points, evt) {
+					// 	console.log(points, evt);
+					// };
 				}
 				// If the data returns empty
 				else {
@@ -104,6 +99,14 @@ app.controller('mainCtrl', function($scope, $http){
 				console.error(data);
 			});
 	};
+	// Launching the datepicker
+	$('input[name="daterange"]').daterangepicker();
+	$('#daterange').on('apply.daterangepicker', function(ev, picker) {
+		var startDate = picker.startDate.format('YYYY-MM-DD'),
+			endDate   = picker.endDate.format('YYYY-MM-DD');
+
+		$scope.sendRequest(startDate, endDate);
+	});
 });
 
 function formatDate(date){

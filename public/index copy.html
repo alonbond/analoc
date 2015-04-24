@@ -1,43 +1,39 @@
 <!DOCTYPE html>
 <html lang="eng" ng-app="analoc">
 <head>
-	<!-- Bootstrap, datepicker and xcharts stylesheet.-->
+	<!-- Bootstrap, datepicker and angular-chars stylesheet.-->
 	<link rel="stylesheet" type="text/css" href="./stylesheets/bootstrap.css" />
-	<link rel="stylesheet" type="text/css" href="./stylesheets/daterangepicker.css" />
-	<link rel="stylesheet" type="text/css" href="./stylesheets/xcharts.min.css" />
+	<!--<link rel="stylesheet" type="text/css" href="./stylesheets/daterangepicker.css" />-->
+	<link rel="stylesheet" type="text/css" href="./stylesheets/daterangepicker-bs3.css">
+	<link rel="stylesheet" type="text/css" href="./stylesheets/angular-chart.css" />
 	<title>Analoc Test</title>
 </head>
-<body ng-contoller="mainCtrl">
-	<div class="container">
-		<h1>{{ "Analoc" + " Test" }}</h1>
 
-		<div id="content">
+<body>
+    <form>
+    	<input type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
+    </form>
 
-	        <form class="form-horizontal">
+	<!-- jQuery, Angular includes -->	
+	<script type="text/javascript" src="./js/dependencies/jquery.js"></script>
 
-	              <input ng-model="range" type="text" name="range" id="range" />
-
-	        </form>
-
-	    </div>
-    </div>
-
-	<!-- jQuery, Angular includes -->
-	<script type="text/javascript" src="./javascripts/angular.min.js"></script>
-	<script type="text/javascript" src="./javascripts/controller.js"></script>
-	<script type="text/javascript" src="./javascripts/jquery.js"></script>
-
-	<!-- xcharts includes -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.js"></script>
-	<script type="text/javascript" src="./javascripts/xcharts.min.js"></script>
-
-	<!-- The daterange picker bootstrap plugin -->
-
-	<script type="text/javascript" src="./javascripts/sugar.min.js"></script>
-	<script type="text/javascript" src="./javascripts/daterangepicker.js"></script>
+	<script type="text/javascript" src="./js/dependencies/moment.min.js"></script>
+	<script type="text/javascript" src="./js/dependencies/daterangepicker.js"></script>
 
 	<!-- Our main script file -->
-	<script type="text/javascript" src="./javascripts/script.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		  $('input[name="daterange"]').daterangepicker(
+		  	 { 
+			    format: 'YYYY-MM-DD',
+			    startDate: '2013-01-01',
+			    endDate: '2013-12-31'
+			  },
+			  function(start, end, label) {
+			    alert('A date range was chosen: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+			  });
+		});
+	</script>
 
 </body>
 </html>
