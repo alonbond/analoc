@@ -87,6 +87,7 @@ app.controller('mainCtrl', function($scope, $http){
 							}
 						};
 					};
+					$scope.datamessage = '';
 				}	
 				// If the data returns empty
 				else {

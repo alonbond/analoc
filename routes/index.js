@@ -5,7 +5,7 @@ var app = express.Router();
 var Cache = require('cache-storage');
 var FileStorage = require('cache-storage/Storage/FileAsyncStorage');
  
-var cache = new Cache(new FileStorage('./temp'), 'namespace');
+// var cache = new Cache(new FileStorage('./temp'), 'namespace');
 
 /* GET home page. */
 app.get('/', function(req, res, next) {
@@ -20,7 +20,7 @@ app.post('/getAnaloc', function(req, res) {
 	var startDate = req.param('startDate'),
 		endDate = req.param('endDate');
 
-	fs.readFile('./sample_data.json', function(error, data){
+	fs.readFile('./temp/sample_data.json', function(error, data){
   		var jsonObj = JSON.parse(data);
   		
   		var manipulatedData = manipulate(jsonObj);

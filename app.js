@@ -5,6 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Required for downloading the json file and saving it in 'temp/sample_data.json'
+var fs = require('fs');
+var request = require('request');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -56,5 +60,20 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// This function stored the data from the url in local file in the client... 
+// (It creats a new file if doesn't exist)
+function getJson(){
+  request('http://files.analoc.com/test/sample_data.json', function (error, response, importedJson) {
+    if (!error && response.statusCode == 200) {
+      fs.writeFile("./temp/sample_data.json", importedJson, function(err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("The file was saved!");
+      });
+    }
+  });
+}
 
 module.exports = app;
+getJson();
