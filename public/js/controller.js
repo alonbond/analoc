@@ -2,7 +2,7 @@ var app = angular.module('analoc', ['chart.js']);
 
 app.controller('mainCtrl', function($scope, $http){
 
-	// Initializing the data for an empy chart, based on the picker.
+	// Initializing the data for an empy chart, based on the picker structure.
 	var shoppersArray = [[0], [0]],
 		labelsArray   = [moment().format("MMM Do YY")],
 		seriesArray	  = ['Walk-Bys', 'Visits'];
@@ -15,7 +15,8 @@ app.controller('mainCtrl', function($scope, $http){
 			// when the response is available
 				if (JSON.stringify(data) !== '{}') {
 
-					// different reslution from one day to a few days
+					// different reslution from one day to a few days.
+					// this is the case of more than one day
 					if (Object.keys(data).length > 1){
 						datesArray = [];
 						// this for loop runs as many as number of days requested.
@@ -47,6 +48,7 @@ app.controller('mainCtrl', function($scope, $http){
 						var labelsArray = [];
 						labelsArray.push(startDate);
 
+						// One day resolution is from 6:00 to 22:00 (store opens, store closes)
 						for (var hour=6; hour<23; hour++){
 							labelsArray.push(hour);
 						};
@@ -80,7 +82,6 @@ app.controller('mainCtrl', function($scope, $http){
 							};
 						};
 						// Setting a nicer data to present the hours on the x axis.
-						// -----------------------------------------
 						for (var i=0; i<labelsArray.length; i++){
 							if (typeof labelsArray[i] === 'number'){
 								labelsArray[i] = labelsArray[i].toString() + ':00';
@@ -94,7 +95,6 @@ app.controller('mainCtrl', function($scope, $http){
 					$scope.datamessage = 'Oops! no entries for these dates.';
 				} 
 				// Filling up the graph with the updated data.
-				console.log(shoppersArray, labelsArray, seriesArray);
 				fillGrpah(shoppersArray, labelsArray, seriesArray);
 				
 			}).
@@ -112,12 +112,15 @@ app.controller('mainCtrl', function($scope, $http){
 	// Launching the datepicker
 	$('#daterange').val(moment().format("YYYY-MM-DD")+' - '+ moment().add('days', 1).format("YYYY-MM-DD"));
 
+	// Datepicker settings
 	$('input[name="daterange"]').daterangepicker(
 		{	
 			format   : 'YYYY-MM-DD',
 			startDate: moment().format("YYYY-MM-DD"),
 			endDate  : moment().format("YYYY-MM-DD"),
 		});
+	
+	// Datepicker event listener for click
 	$('#daterange').on('apply.daterangepicker', function(ev, picker) {
 		var startDate = picker.startDate.format('YYYY-MM-DD'),
 			endDate   = picker.endDate.format('YYYY-MM-DD');

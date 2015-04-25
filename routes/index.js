@@ -3,12 +3,6 @@ var fs = require('fs');
 var http = require('http');
 var app = express.Router();
 
-/* GET home page. */
-app.get('/', function(req, res, next) {
-	console.log('Welcome to Express.js');
-  	res.render('index', { title: 'Express' });
-});
-
 /* slice json data to relavent dates  */
 app.post('/getAnaloc', function(req, res) {
 
@@ -19,7 +13,8 @@ app.post('/getAnaloc', function(req, res) {
 		
 	var requestedData = {}; // Initializing an empy dict to be returned with correct data 
 
-	// For each new dates range a file is created in ./temp so that can be reused quickly.
+	// For each new dates range a file is created in ./temp so that can be reused quickly 
+	// again ('my caching');
 	// If file already exists 
 	if (fs.existsSync(datesPath))
 	{
@@ -51,7 +46,6 @@ app.post('/getAnaloc', function(req, res) {
 	    		if (err) {
 	      			return console.log(err);
 	    		}
-	    		console.log("The file was written!");
 	  		});
 	  		// Send the data back to the client. 
 			res.send(requestedData);

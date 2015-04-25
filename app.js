@@ -65,11 +65,13 @@ app.use(function(err, req, res, next) {
 function getJson(){
   request('http://files.analoc.com/test/sample_data.json', function (error, response, importedJson) {
     if (!error && response.statusCode == 200) {
-      fs.writeFile("./temp/sample_data.json", importedJson, function(err) {
-        if (err) {
-          return console.log(err);
-        }
-      });
+      if (!fs.existsSync("./temp/sample_data.json")){
+        fs.writeFile("./temp/sample_data.json", importedJson, function(err) {
+          if (err) {
+            return console.log(err);
+          }
+        });
+      }
     }
   });
 }
