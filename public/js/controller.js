@@ -10,7 +10,7 @@ app.controller('mainCtrl', function($scope, $http){
 	$scope.sendRequest = function(startDate, endDate){
 
 		$http.post('/getAnaloc', {'startDate':startDate, 'endDate': endDate}).
-			success(function(data, status, headers, config) {
+			success(function(data, status) {
 			// this callback will be called asynchronously
 			// when the response is available
 				if (JSON.stringify(data) !== '{}') {
